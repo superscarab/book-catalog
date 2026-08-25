@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0045)file:///C:/Users/mlein/Downloads/index_1.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your Library — Book Catalog</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./index_files/css2" rel="stylesheet">
 <style>
   :root {
     --ink: #F2ECD9;
@@ -189,11 +189,11 @@
 
   <div class="drawer-label">Card Catalog</div>
   <h1>Your Library</h1>
-  <div class="subtitle" id="subtitle">Loading catalog…</div>
+  <div class="subtitle" id="subtitle">Could not load books.json</div>
 
   <div class="catalog-frame">
     <div class="search-wrap">
-      <input type="text" id="search" placeholder="type a title to search…" autocomplete="off" autofocus>
+      <input type="text" id="search" placeholder="type a title to search…" autocomplete="off" autofocus="">
     </div>
     <div class="meta-row">
       <span id="resultCount"></span>
@@ -206,9 +206,7 @@
 
   <footer>Rebuilt nightly at 2:00 AM from your local library.</footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
 <script>
-  let fuse = null;
   let allBooks = [];
   const resultsEl = document.getElementById('results');
   const emptyEl = document.getElementById('emptyState');
@@ -221,26 +219,28 @@
     return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  function highlight(text, matches) {
-    if (!matches || !matches.length) return escapeHtml(text);
-    // Merge indices from all match ranges on the title field
-    let ranges = [];
-    matches.forEach(m => { if (m.key === 'title') ranges = ranges.concat(m.indices); });
-    if (!ranges.length) return escapeHtml(text);
-    ranges.sort((a, b) => a[0] - b[0]);
-    let out = '';
-    let cursor = 0;
-    ranges.forEach(([start, end]) => {
-      if (start < cursor) return;
-      out += escapeHtml(text.slice(cursor, start));
-      out += '<mark>' + escapeHtml(text.slice(start, end + 1)) + '</mark>';
-      cursor = end + 1;
-    });
-    out += escapeHtml(text.slice(cursor));
-    return out;
+  function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  function renderCards(items, isSearch) {
+  // Highlights each query word only where it appears as the start of a
+  // real word in the title (not scattered letters, not mid-word substrings).
+  function highlightWords(text, words) {
+    const escaped = escapeHtml(text);
+    if (!words.length) return escaped;
+    const pattern = new RegExp('\\b(' + words.map(escapeRegex).join('|') + ')', 'gi');
+    return escaped.replace(pattern, m => '<mark>' + m + '</mark>');
+  }
+
+  // A book matches only if EVERY typed word is a whole word (or the start of
+  // a word) somewhere in the title - e.g. "dummies" matches "... for Dummies"
+  // but never matches on scattered/unrelated letters.
+  function matchesQuery(title, words) {
+    const lower = title.toLowerCase();
+    return words.every(w => new RegExp('\\b' + escapeRegex(w)).test(lower));
+  }
+
+  function renderCards(items, isSearch, words) {
     resultsEl.innerHTML = '';
     if (!items.length) {
       emptyEl.style.display = 'block';
@@ -253,13 +253,11 @@
       ? `${items.length} match${items.length === 1 ? '' : 'es'}`
       : `${items.length} books total`;
 
-    capped.forEach(res => {
-      const book = isSearch ? res.item : res;
-      const matches = isSearch ? res.matches : null;
+    capped.forEach(book => {
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <div class="card-title">${highlight(book.title, matches)}</div>
+        <div class="card-title">${highlightWords(book.title, words || [])}</div>
         <div class="card-format">${escapeHtml(book.format || '')}</div>
       `;
       resultsEl.appendChild(card);
@@ -267,12 +265,14 @@
   }
 
   function doSearch(query) {
-    if (!query.trim()) {
-      renderCards(allBooks.slice(0, 30), false);
+    const trimmed = query.trim();
+    if (!trimmed) {
+      renderCards(allBooks.slice(0, 30), false, []);
       return;
     }
-    const results = fuse.search(query);
-    renderCards(results, true);
+    const words = trimmed.toLowerCase().split(/\s+/).filter(Boolean);
+    const matches = allBooks.filter(book => matchesQuery(book.title, words));
+    renderCards(matches, true, words);
   }
 
   searchEl.addEventListener('input', e => doSearch(e.target.value));
@@ -282,23 +282,17 @@
     fetch('meta.json').then(r => r.json()).catch(() => null)
   ]).then(([books, meta]) => {
     allBooks = books;
-    fuse = new Fuse(books, {
-      keys: ['title'],
-      threshold: 0.35,
-      ignoreLocation: true,
-      includeMatches: true,
-      minMatchCharLength: 2
-    });
     subtitleEl.textContent = `${books.length} books catalogued`;
     if (meta && meta.lastUpdated) {
       updatedEl.textContent = `updated ${meta.lastUpdated}`;
     }
-    renderCards(allBooks.slice(0, 30), false);
+    renderCards(allBooks.slice(0, 30), false, []);
   }).catch(err => {
     subtitleEl.textContent = 'Could not load books.json';
     console.error(err);
   });
 </script>
 
-</body>
-</html>
+
+
+</body></html>
