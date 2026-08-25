@@ -42,3 +42,20 @@ At C:\BookCatalog\Scan-Books.ps1:107 char:23
 2026-08-25 16:15:04  Scanning D:\appdata\Calibre ...
 2026-08-25 16:15:08  Found 12951 ebook files (12951 unique)
 2026-08-25 16:15:09  books.json and meta.json written to C:\BookCatalog
+2026-08-25 16:15:09  git commit output: [main 4137f07] Update book list - 2026-08-25 16:15
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+2026-08-25 16:15:12  git push output: git : To https://github.com/superscarab/book-catalog.git
+At C:\BookCatalog\Scan-Books.ps1:107 char:23
++         $pushOutput = git push 2>&1 | Out-String
++                       ~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...ook-catalog.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   91c03f8..4137f07  main -> main
+2026-08-25 16:15:12  Changes committed and pushed to GitHub
+2026-08-25 16:15:12  ----- Scan finished -----
+2026-08-25 16:19:26  ----- Scan started -----
+2026-08-25 16:19:26  Scanning F:\books ...
+2026-08-25 16:19:27  Scanning D:\appdata\Calibre ...
+2026-08-25 16:19:31  Found 12951 ebook files (12951 unique)
+2026-08-25 16:19:31  books.json and meta.json written to C:\BookCatalog
