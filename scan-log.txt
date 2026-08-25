@@ -17,3 +17,10 @@
 2026-08-25 15:48:20  Scanning D:\appdata\Calibre ...
 2026-08-25 15:48:24  Found 12951 ebook files (12951 unique)
 2026-08-25 15:48:24  books.json and meta.json written to C:\BookCatalog
+2026-08-25 15:48:28  ERROR during git commit/push: To https://github.com/superscarab/book-catalog.git
+2026-08-25 15:48:28  ----- Scan finished -----
+2026-08-25 15:51:02  ----- Scan started -----
+2026-08-25 15:51:02  Scanning F:\books ...
+2026-08-25 15:51:02  Scanning D:\appdata\Calibre ...
+2026-08-25 15:51:06  Found 12951 ebook files (12951 unique)
+2026-08-25 15:51:06  books.json and meta.json written to C:\BookCatalog
