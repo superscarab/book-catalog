@@ -80,3 +80,10 @@ At C:\BookCatalog\Scan-Books.ps1:107 char:23
 2026-08-25 16:27:50  Scanning D:\appdata\Calibre ...
 2026-08-25 16:27:57  Found 12951 ebook files (12951 unique)
 2026-08-25 16:27:57  books.json and meta.json written to C:\BookCatalog
+2026-08-25 16:27:58  Committed: [main 0d6eed5] Update book list - 2026-08-25 16:27
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+2026-08-25 16:28:40  ----- Scan started -----
+2026-08-25 16:28:40  Scanning F:\books ...
+2026-08-25 16:28:41  Scanning D:\appdata\Calibre ...
+2026-08-25 16:28:44  Found 12951 ebook files (12951 unique)
+2026-08-25 16:28:44  books.json and meta.json written to C:\BookCatalog
