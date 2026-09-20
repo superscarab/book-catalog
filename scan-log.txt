@@ -327,3 +327,12 @@ At C:\BookCatalog\Scan-Books.ps1:60 char:9
 2026-09-19 03:00:03  Scanning D:\appdata\Calibre ...
 2026-09-19 03:00:42  Found 13105 ebook files (13105 unique)
 2026-09-19 03:00:42  books.json and meta.json written to C:\BookCatalog
+2026-09-19 03:00:43  Committed: [main b853448] Update book list - 2026-09-19 03:00
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+2026-09-19 03:00:47  Changes committed and pushed to GitHub
+2026-09-19 03:00:47  ----- Scan finished -----
+2026-09-20 03:00:02  ----- Scan started -----
+2026-09-20 03:00:02  Scanning F:\books ...
+2026-09-20 03:00:05  Scanning D:\appdata\Calibre ...
+2026-09-20 03:00:42  Found 13105 ebook files (13105 unique)
+2026-09-20 03:00:42  books.json and meta.json written to C:\BookCatalog
